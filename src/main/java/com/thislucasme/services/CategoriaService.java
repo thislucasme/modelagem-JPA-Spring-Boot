@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.thislucasme.domain.Categoria;
 import com.thislucasme.repositories.CategoriaRepository;
+import com.thislucasme.services.exceptions.ObjectNotFoundExceptionAPI;
+
+import javassist.tools.rmi.ObjectNotFoundException;
 
 @Service
 public class CategoriaService {
@@ -16,6 +19,7 @@ public class CategoriaService {
 	
 	public Categoria find(Integer id) {
 		Optional<Categoria> obj = repo.findById(id);
-		return obj.orElse(null);
+		
+		return obj.orElseThrow(() ->  new ObjectNotFoundExceptionAPI("Objeto nao encontrado! Id: "+id+" Tipo: "+Categoria.class.getName()));
 	}
 }
