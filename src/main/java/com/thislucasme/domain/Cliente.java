@@ -1,5 +1,6 @@
 package com.thislucasme.domain;
 
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -11,7 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -33,12 +33,14 @@ public class Cliente implements Serializable {
 	
 	@JsonManagedReference
 	@OneToMany(mappedBy = "cliente")
-	private List<Endereco> enderecos = new ArrayList();
+	private List<Endereco> enderecos = new ArrayList<Endereco>();
 	
 	@ElementCollection
 	@CollectionTable(name = "TELEFONE")
 	private java.util.Set<String> telefones = new HashSet<String>();
 	
+	@OneToMany(mappedBy = "cliente")
+	private List<Pedido> pedidos = new ArrayList<Pedido>();
 	
 	public Cliente() {
 		
@@ -98,6 +100,40 @@ public class Cliente implements Serializable {
 	public TipoCliente getTipoCliente() {
 		return TipoCliente.toEnum(this.tipoCliente);
 	}
+	
+	public void setTipoCliente(TipoCliente tipoCliente) {
+		this.tipoCliente = tipoCliente.getCod();
+	}
+
+
+	public List<Endereco> getEnderecos() {
+		return enderecos;
+	}
+
+
+	public void setEnderecos(List<Endereco> enderecos) {
+		this.enderecos = enderecos;
+	}
+
+
+	public java.util.Set<String> getTelefones() {
+		return telefones;
+	}
+
+
+	public void setTelefones(java.util.Set<String> telefones) {
+		this.telefones = telefones;
+	}
+
+
+	public List<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
+	}
 
 
 	@Override
@@ -124,31 +160,6 @@ public class Cliente implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-
-
-	public void setTipoCliente(TipoCliente tipoCliente) {
-		this.tipoCliente = tipoCliente.getCod();
-	}
-
-
-	public List<Endereco> getEnderecos() {
-		return enderecos;
-	}
-
-
-	public void setEnderecos(List<Endereco> enderecos) {
-		this.enderecos = enderecos;
-	}
-
-
-	public java.util.Set<String> getTelefones() {
-		return telefones;
-	}
-
-
-	public void setTelefones(java.util.Set<String> telefones) {
-		this.telefones = telefones;
 	}
 	
 }
