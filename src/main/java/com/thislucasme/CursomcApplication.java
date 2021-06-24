@@ -14,6 +14,7 @@ import com.thislucasme.domain.Cidade;
 import com.thislucasme.domain.Cliente;
 import com.thislucasme.domain.Endereco;
 import com.thislucasme.domain.Estado;
+import com.thislucasme.domain.ItemPedido;
 import com.thislucasme.domain.Pagamento;
 import com.thislucasme.domain.PagamentoComBoleto;
 import com.thislucasme.domain.PagamentoComCartao;
@@ -26,6 +27,7 @@ import com.thislucasme.repositories.CidadeRepository;
 import com.thislucasme.repositories.ClienteRepository;
 import com.thislucasme.repositories.EnderecoRepository;
 import com.thislucasme.repositories.EstadoRepository;
+import com.thislucasme.repositories.ItemPedidoRepository;
 import com.thislucasme.repositories.PagamentoRepository;
 import com.thislucasme.repositories.PedidoRepository;
 import com.thislucasme.repositories.ProdutoRepository;
@@ -56,6 +58,9 @@ public class CursomcApplication implements CommandLineRunner{
 	
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -134,6 +139,24 @@ public class CursomcApplication implements CommandLineRunner{
 		pedidoRepository.saveAll(Arrays.asList(pe1, pe2));
 		
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+		
+		
+		ItemPedido ip1 = new ItemPedido(pe1, p1, 0.0, 1, 200.0);
+		ItemPedido ip2 = new ItemPedido(pe1, p3, 0.0, 2, 80.0);
+		ItemPedido ip3 = new ItemPedido(pe2, p2, 0.0, 1, 20.0);
+		
+		
+		pe1.getItens().addAll(Arrays.asList(ip1, ip2));
+		pe2.getItens().addAll(Arrays.asList(ip3));
+		
+
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
+		
+		
 	}
 
 }

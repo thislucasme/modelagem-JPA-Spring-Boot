@@ -47,7 +47,7 @@ public abstract class Pagamento implements Serializable{
 	public void setEstado(EstadoPagamento estado) {
 		this.estado = estado.getCod();
 	}
-	public Pedido getPedido() {
+	public Pedido getPedido() { 
 		return pedido;
 	}
 	public void setPedido(Pedido pedido) {

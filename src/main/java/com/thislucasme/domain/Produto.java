@@ -2,6 +2,7 @@ package com.thislucasme.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.ManyToAny;
 
@@ -34,6 +36,9 @@ public class Produto  implements Serializable{
 	@JsonBackReference
 	private List<Categoria> categorias = new ArrayList<Categoria>();
 	
+	@OneToMany(mappedBy = "id.produto")
+	private java.util.Set<ItemPedido> itens = new HashSet<ItemPedido>();
+	
 	public Produto() {
 		
 	}
@@ -43,6 +48,14 @@ public class Produto  implements Serializable{
 		this.id = id;
 		this.nome = nome;
 		this.preco = preco;
+	}
+	
+	public List<Pedido> getPedidos (){
+		List<Pedido> lista = new ArrayList<Pedido>();
+		for(ItemPedido x: itens) {
+			lista.add(x.getPedido());
+		}
+		return lista;
 	}
 
 	public Integer getId() {
@@ -76,6 +89,15 @@ public class Produto  implements Serializable{
 	public void setCategorias(List<Categoria> categorias) {
 		this.categorias = categorias;
 	}
+	
+	public java.util.Set<ItemPedido> getItens() {
+		return itens;
+	}
+
+	public void setItens(java.util.Set<ItemPedido> itens) {
+		this.itens = itens;
+	}
+	
 
 	@Override
 	public int hashCode() {
@@ -101,7 +123,8 @@ public class Produto  implements Serializable{
 			return false;
 		return true;
 	}
-	
+
+
 	
 
 }
